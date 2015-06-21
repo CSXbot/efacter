@@ -1,4 +1,5 @@
 import subprocess, json, sys
+from datetime import datetime
 
 class Facter (object):
     def __init__(self, piecesRequested):
@@ -29,9 +30,10 @@ class Facter (object):
 
     def pieces(self):
         pieces = {}
+        factsRequested = self.allFacts()
         for piece in self.piecesRequested:
+            result = factsRequested
             keys = piece.split(self.separator)
-            result = self.allFacts()
             for key in keys:
                 try:
                     result = result[key]

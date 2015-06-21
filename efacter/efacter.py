@@ -1,18 +1,15 @@
-#!/usr/bin/python
+#!/usr/bin/env python
 
 from Facter import Facter
 import json, sys
 from optparse import OptionParser
-from datetime import datetime
 from pygments import highlight
 from pygments.lexers import JsonLexer
 from pygments.formatters import TerminalFormatter
 from pygments.styles import native
 
-
 usage = "usage: %prog [options] <fact.element1.element2> [anotherFact.element1] [andAnother] ... "
 optionparser = OptionParser(usage=usage)
-
 optionparser.add_option("-j", "--json", dest="jsonOutput", default=False, action="store_true",
         help="Output JSON")
 optionparser.add_option("-o", "--json-one-string", dest="oneString", default=4, action="store_const", const=None,
@@ -21,39 +18,32 @@ optionparser.add_option("-d", "--delimiter", dest="delimiter", default='.', acti
         help="Delimiter for elements (default is '.'))")
 optionparser.add_option("-n", "--no-colour", dest="noColour", default=False, action="store_true",
         help="Disable colours in the output")
-
 (options, args) = optionparser.parse_args()
 if len(args) < 1:
-    optionparser.error("You need to provide at list one argument")
-headerStyle = '\033[1m\033[92m'
+    optionparser.error("You need to provide at least one argument")
 
+
+# Get Data and prepare JsonDump
 facter = Facter(args)
 facter.separator = options.delimiter
+chunks = facter.pieces()
 
-pieces = facter.pieces()
+
+def makeJson (j, indent, noColour):
+        j = json.dumps(j, indent=indent)
+        if not noColour: j = highlight(j, JsonLexer(), TerminalFormatter()).rstrip('\n')
+        return j
+
 if options.jsonOutput:
-    if options.noColour:
-        print json.dumps(pieces, indent=options.oneString)
-    else:
-        print highlight(
-                json.dumps(pieces, indent=options.oneString),
-                JsonLexer(),
-                TerminalFormatter()
-                ).rstrip('\n')
+    print makeJson(chunks, options.oneString, options.noColour)
 else:
+    if options.noColour:
+        headerStyle = resetStyle = ''
+    else:
+        headerStyle = '\033[1m\033[92m'
+        resetStyle = '\033[0m'
     for piece in args:
-        if options.noColour:
-            print "%s: %s" % (
-                    piece,
-                    json.dumps(pieces[piece], indent=4)
-                    )
-        else:
-            print "%s: %s" % (
-                    headerStyle + piece + '\033[0m',
-                    highlight(
-                        json.dumps(pieces[piece], indent=4),
-                        JsonLexer(),
-                        TerminalFormatter()
-                        ).rstrip('\n')
-                    )
+        print "%s: %s" % (headerStyle + piece + resetStyle, makeJson(chunks[piece], options.oneString, options.noColour))
+
+
 sys.exit(0)

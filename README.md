@@ -3,8 +3,8 @@ efacter
 
 This package provides:
 
-0. Facter module to work with structured [facter's](https://puppetlabs.com/facter) facts
-0. efacter command line utility, which user the Facter module. efacter allows you to query specific chunks of hashes in complex facts and show them with colour highlighting (or without) in form of either JSON or human readable format (it's just modified and intended JSON, to be honest)
+0. **Facter** module to work with structured [facter's](https://puppetlabs.com/facter) facts
+0. **efacter** command line utility, which user the Facter module. **efacter** allows you to query specific chunks of hashes in complex facts and show them with colour highlighting (or without) in form of either JSON or human readable format (it's just modified and intended JSON, to be honest)
 
 Facter()
 -----------
