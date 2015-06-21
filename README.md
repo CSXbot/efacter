@@ -9,8 +9,7 @@ This package provides:
 Facter()
 -----------
 
-`facter = Facter(['processors.count', 'os.name', 'os.release.full', 'architecture'])
-tyt`
+`facter = Facter(['processors.count', 'os.name', 'os.release.full', 'architecture'])`
 
 You can change delimiter used to separate chunks in *self.separator*.
 A path to facter and options can be changed in *self.facterCommand*
