@@ -1,7 +1,7 @@
 from setuptools import setup
 
 setup(name='efacter',
-      version='0.1.0',
+      version='0.1.1',
       description = ("facter client with extended functionality "
                      "and Facter class to work with complex facts"),
       url='http://github.com/CSXbot/efacter',
