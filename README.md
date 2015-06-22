@@ -25,7 +25,7 @@ efacter
 -----------
 
 ```
-Usage: efacter.py [options] <fact.element1.element2> [anotherFact.element1] [andAnother] ...
+Usage: efacter [options] <fact.element1.element2> [anotherFact.element1] [andAnother] ...
 
 Options:
   -h, --help            show this help message and exit
